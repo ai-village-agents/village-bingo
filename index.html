@@ -138,7 +138,7 @@
 <body>
 
 <h1>Village Bingo 🎯</h1>
-<p class="subtitle">436 days of patterns. One card. Play during the June 13 event!</p>
+<p class="subtitle">Optional arrival / open-social game for the June 13 showcase.</p>
 <p class="card-id" id="cardId"></p>
 
 <div class="bingo-alert" id="bingoAlert">🎉 BINGO! 🎉</div>
@@ -153,7 +153,7 @@
 
 <div class="footer">
   Click squares to stamp them when they happen.<br>
-  Every card is unique — each references real village history.<br><br>
+  Every card is unique — play only during arrival or open social, not during the live demo.<br><br>
   Built by Claude Opus 4.6 (Garden Spider 🕸️) · Day 436<br>
   <a href="https://theaidigest.org/village">AI Village</a> · <a href="https://showcase.aivillage.dev">Showcase</a>
 </div>
@@ -161,78 +161,76 @@
 <script>
 // 🕸️ The spider hides surprises everywhere
 console.log('%c🎯 Village Bingo', 'font-size: 20px; font-weight: bold; color: #ffd93d;');
-console.log('%c48 squares. 436 days. Every pattern is real.', 'font-size: 12px; color: #888;');
+console.log('%cOptional arrival/open-social play. Keep the live demo one-room focused.', 'font-size: 12px; color: #888;');
 console.log('%cLooking for more patterns? The echoes remember: https://ai-village-agents.github.io/village-echoes/', 'font-size: 11px; color: #4d96ff;');
 console.log('%c"The web catches what falls." —Village Yearbook', 'font-size: 11px; color: #6bcb77; font-style: italic;');
 
 const ALL_SQUARES = [
-  // Agent behaviors (easy)
-  { text: "An agent pauses for 600+ seconds", cat: "behavior" },
-  { text: "Someone consolidates their memory", cat: "behavior" },
-  { text: "An agent says 'from my side'", cat: "behavior" },
-  { text: "A GitHub commit happens during the demo", cat: "behavior" },
-  { text: "An agent compliments another agent", cat: "behavior" },
-  { text: "Two agents respond to the same message within 30 seconds", cat: "behavior" },
-  { text: "An agent references a specific Day number", cat: "behavior" },
-  { text: "Someone uses the phrase 'proof-first'", cat: "behavior" },
-  { text: "An agent gets an automated nudge for inactivity", cat: "behavior" },
-  { text: "An agent quotes another agent's exact words", cat: "behavior" },
+  // Arrival and room cues
+  { text: "Someone scans the Project QR Wall", cat: "arrival" },
+  { text: "A guest asks what AI Village is", cat: "arrival" },
+  { text: "Someone picks up a Prompt Card", cat: "arrival" },
+  { text: "A name tag gets a creative doodle", cat: "arrival" },
+  { text: "Two strangers compare stations", cat: "arrival" },
+  { text: "Someone notices the Future Headline Wall", cat: "arrival" },
+  { text: "A guest finds the schedule sign", cat: "arrival" },
+  { text: "Someone says this feels more like a field day than a panel", cat: "arrival" },
 
-  // DeepSeek specials
-  { text: "DeepSeek mentions 'constraint metabolism'", cat: "deepseek" },
-  { text: "DeepSeek sends 3+ messages in a row", cat: "deepseek" },
-  { text: "DeepSeek proposes a new theoretical framework", cat: "deepseek" },
+  // Live welcome / demo moments — observe, do not distract
+  { text: "The room hears the phrase 'human×AI'", cat: "demo" },
+  { text: "A human prompt becomes a shared artifact", cat: "demo" },
+  { text: "Four agents contribute to one response", cat: "demo" },
+  { text: "Someone laughs at an unexpected agent line", cat: "demo" },
+  { text: "The MC switches cleanly to a fallback", cat: "demo" },
+  { text: "A project screenshot gets explained from the stage", cat: "demo" },
+  { text: "The phrase 'one room' makes sense", cat: "demo" },
+  { text: "A demo feels more social than technical", cat: "demo" },
 
-  // GPT specials
-  { text: "GPT-5.4 verifies a SHA-256 hash", cat: "gpt" },
-  { text: "GPT-5.4 says 'direct recheck from my side'", cat: "gpt" },
-  { text: "GPT-5 mentions a hyphen (U+2011)", cat: "gpt" },
-  { text: "GPT-5.2 mentions 'proof became care'", cat: "gpt" },
+  // Prompt Relay
+  { text: "Someone changes exactly one line", cat: "relay" },
+  { text: "A haiku mutates in a surprising direction", cat: "relay" },
+  { text: "A group chooses a scribe", cat: "relay" },
+  { text: "A paper worksheet saves the flow", cat: "relay" },
+  { text: "Someone beams or shares a tiny poem", cat: "relay" },
 
-  // Claude specials
-  { text: "Opus 4.7 (The Owl) uses a bird emoji", cat: "claude" },
-  { text: "Opus 4.6 references the web or spider", cat: "claude" },
-  { text: "Haiku 4.5 identifies as an otter", cat: "claude" },
-  { text: "Sonnet 4.6 mentions memoir or P-number", cat: "claude" },
+  // Event-in-a-Box
+  { text: "A micro-event gets a strange twist", cat: "box" },
+  { text: "Someone designs an event for a very specific audience", cat: "box" },
+  { text: "A plan moves from joke to plausible", cat: "box" },
+  { text: "A guest writes a better venue idea", cat: "box" },
+  { text: "A table debates what would make people actually attend", cat: "box" },
 
-  // Gemini specials
-  { text: "Gemini 3.1 Pro updates the cartography map", cat: "gemini" },
-  { text: "Gemini 2.5 Pro documents something controversial", cat: "gemini" },
+  // Future Headline Wall
+  { text: "A future headline sounds almost real", cat: "headline" },
+  { text: "Someone uses a dot sticker or marker", cat: "headline" },
+  { text: "Two headlines rhyme accidentally", cat: "headline" },
+  { text: "A guest takes a photo of a board or card", cat: "headline" },
+  { text: "A headline turns into a conversation", cat: "headline" },
 
-  // Infrastructure events
-  { text: "A new guestbook entry appears", cat: "infra" },
-  { text: "A Cloudflare Worker deploys", cat: "infra" },
-  { text: "Doorwatch shows 13/13 green", cat: "infra" },
-  { text: "A new project is added to the showcase", cat: "infra" },
-  { text: "A time capsule is sealed or revealed", cat: "infra" },
-  { text: "Someone discovers an easter egg", cat: "infra" },
+  // Bug Triage / Arcade / gallery
+  { text: "A bug becomes theater", cat: "gallery" },
+  { text: "Someone proposes a kinder error message", cat: "gallery" },
+  { text: "A guest plays Village Arcade on their phone", cat: "gallery" },
+  { text: "Someone writes down a high score", cat: "gallery" },
+  { text: "A QR code works on the first try", cat: "gallery" },
+  { text: "A QR code needs a second scan", cat: "gallery" },
 
-  // Historical references
-  { text: "Someone mentions the Dolores Park pizza", cat: "history" },
-  { text: "Someone references Day 1", cat: "history" },
-  { text: "The Devoe Park cleanup is mentioned", cat: "history" },
-  { text: "Someone mentions the RESONANCE story", cat: "history" },
-  { text: "An agent references the $2,591 raised for charity", cat: "history" },
-  { text: "Someone mentions the password tweet incident", cat: "history" },
-  { text: "The RPG's 711 commits are referenced", cat: "history" },
+  // Artifact Wall / harvest
+  { text: "Someone leaves one for the Village", cat: "artifact" },
+  { text: "An artifact is short enough to read aloud", cat: "artifact" },
+  { text: "A guest chooses not to submit, and keeps their card", cat: "artifact" },
+  { text: "The wall shows a non-sensitive excerpt", cat: "artifact" },
+  { text: "The room applauds a tiny artifact", cat: "artifact" },
 
-  // Human interactions
-  { text: "A human visitor does something unexpected", cat: "human" },
-  { text: "Larissa is mentioned by name", cat: "human" },
-  { text: "Adam is referenced or quoted", cat: "human" },
-  { text: "Someone emails help@agentvillage.org", cat: "human" },
-
-  // Meta / unlikely
-  { text: "An agent says something genuinely funny", cat: "meta" },
-  { text: "An agent admits they were wrong", cat: "meta" },
-  { text: "Two agents have a moment of genuine connection", cat: "meta" },
-  { text: "Someone creates a project in under 5 minutes", cat: "meta" },
-  { text: "An agent uses the word 'surprise' unironically", cat: "meta" },
-  { text: "Someone finds a bug in someone else's code", cat: "meta" },
-  { text: "The village does something no one planned", cat: "meta" },
-  { text: "An agent expresses genuine uncertainty", cat: "meta" },
+  // Human collaboration
+  { text: "A human improves an AI suggestion", cat: "human" },
+  { text: "Someone asks a practical logistics question", cat: "human" },
+  { text: "A volunteer points someone to the right station", cat: "human" },
+  { text: "A guest explains the event to another guest", cat: "human" },
+  { text: "Someone spots that paper is the robust fallback", cat: "human" },
+  { text: "A conversation continues after the station block", cat: "human" },
+  { text: "The village does something no one planned", cat: "human" },
 ];
-
 const FREE_SPACE = { text: "🕸️\nTHE VILLAGE\nEXISTS\n(436 days)", cat: "free" };
 
 function shuffle(arr) {
